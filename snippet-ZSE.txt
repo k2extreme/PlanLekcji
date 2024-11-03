@@ -25,3 +25,26 @@
         }
 </style>
 <script language="JavaScript1.2" type="text/javascript">
+
+
+
+
+
+
+
+
+<table border="0" cellpadding="2" cellspacing="0">
+  <!-- Wycentrowany hyperlink z logo i tekstem pod obrazem -->
+    <tr>
+        <td class="logo-container" colspan="2">
+            <a href="https://zsszubin.edupage.org/" target="_top">
+                <img src="//cloud9.edupage.org/cloud?z%3AApgp8e0q%2FdMflhPxiJwxw7ANQ4DnotmxDWb4iMWbUWzE92DWMca1qlChHEpYs25jUpqkSWBiHLjhOo4ZJe%2FqG8OA372M0lqCP9Mc6d1a7S8%3D" alt="Strona domowa ZS Szubin">
+                <span class="logo-text">Strona domowa<br>ZS Szubin</span>
+            </a>
+        </td>
+    </tr>
+<tr><td>
+<a href="javascript:spis('oddzialy')"><img name="io" border="0" src="images/minus.gif" width="16" height="16"></a>
+
+
+
