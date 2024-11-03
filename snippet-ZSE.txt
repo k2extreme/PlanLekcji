@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="css/lista.css" type="text/css">
+<style>
+        /* Styl dla centrowania i dodania odstępu tekstu pod obrazem */
+        .logo-container {
+            text-align: center;
+            padding-bottom: 10px;
+            width: 99%;
+        }
+        .logo-container a {
+            display: inline-block;
+            text-align: center;
+            color: #000;
+            text-decoration: none;
+        }
+        .logo-container img {
+            display: block;
+            margin: 0 auto;
+            width: 60px;
+            height: 60px;
+        }
+        .logo-container .logo-text {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+</style>
+<script language="JavaScript1.2" type="text/javascript">
