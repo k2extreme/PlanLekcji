@@ -1,0 +1,67 @@
+name: Pages (publish even if autopatch fails)
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # BEST EFFORT: autopatch może się wywalić, ale deploy ma iść dalej
+      - name: Autopatch (best effort)
+        id: autopatch
+        continue-on-error: true
+        run: python scripts/apply_snippet_zs_hardcoded.py
+
+      # Jeśli autopatch się wywalił, czyścimy ewentualne częściowe zmiany i publikujemy HEAD
+      - name: Revert changes if autopatch failed
+        if: steps.autopatch.outcome != 'success'
+        run: |
+          echo "Autopatch failed -> publishing original repo content (HEAD)."
+          git reset --hard HEAD
+          git clean -fd
+
+      # (opcjonalnie) jeśli autopatch się udał, a zmienił pliki, to tylko loguj diff
+      - name: Show patch diff (optional)
+        if: steps.autopatch.outcome == 'success'
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Autopatch changed files (will be published in artifact):"
+            git --no-pager diff
+          else
+            echo "Autopatch made no changes."
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
