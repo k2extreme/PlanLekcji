@@ -50,6 +50,10 @@ jobs:
           else
             echo "Autopatch made no changes."
           fi
+      - name: Warn when autopatch failed
+        if: steps.autopatch.outcome != 'success'
+        run: |
+          echo "::warning::Autopatch failed. Published original content without changes."
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
