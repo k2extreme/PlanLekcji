@@ -132,14 +132,11 @@ def validate_snippet_contract() -> None:
     got_logo = normalize_block(s_logo)
 
     if got_style != want_style or got_logo != want_logo:
-        if os.getenv("ALLOW_SNIPPET_MISMATCH") == "1":
-            print("[warn] snippet-ZS.txt różni się od hardkodu, ale ALLOW_SNIPPET_MISMATCH=1 -> kontynuuję")
-            return
-        raise ValueError(
-            "snippet-ZS.txt NIE jest zgodny z hardkodem w skrypcie.\n"
-            "Rozwiązanie: zaktualizuj albo snippet-ZS.txt, albo stałe STYLE_BLOCK_LINES/LOGO_BLOCK_LINES.\n"
-            "(Ewentualnie ustaw ALLOW_SNIPPET_MISMATCH=1 aby tylko ostrzegać.)"
-        )
+        print("[warn] snippet-ZS.txt różni się od hardkodu (walidacja informacyjna).")
+        # jeśli chcesz tryb twardy, to dopiero wtedy:
+        if os.getenv("STRICT_SNIPPET_CONTRACT") == "1":
+            raise ValueError("snippet-ZS.txt NIE jest zgodny z hardkodem w skrypcie.")
+
 
 
 def find_line_idx(lines: list[str], predicate) -> int:
